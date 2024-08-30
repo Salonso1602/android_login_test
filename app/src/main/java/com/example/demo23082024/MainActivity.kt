@@ -7,13 +7,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -35,10 +35,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.demo23082024.ui.theme.Demo23082024Theme
 
 class MainActivity : ComponentActivity() {
@@ -47,7 +49,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Demo23082024Theme {
-                Scaffold (Modifier.padding(16.dp)) { sth ->
+                Scaffold (Modifier.padding(16.dp)) { _ ->
                     val userName = remember { mutableStateOf("") }
                     val password = remember { mutableStateOf("") }
                     LoginCard(
@@ -82,19 +84,26 @@ fun LoginCard(userName: MutableState<String>,
             verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.padding(12.dp)
         ) {
-            Text(
-                text = "Login",
+            Box(
                 modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.Start),
-                textAlign = TextAlign.Start,
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "Login image",
-                modifier = Modifier
-                    .size(250.dp)
-            )
+                    .fillMaxWidth(),
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.download),
+                    contentDescription = "Login image",
+                    modifier = Modifier
+//                        .size(250.dp)
+                        .align(Alignment.Center)
+                )
+                Text(
+                    text = "Login",
+                    modifier = Modifier
+                        .padding(16.dp),
+                    textAlign = TextAlign.Start,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
             OutlinedTextField(
                 value = userName.value,
                 singleLine = true,
