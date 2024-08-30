@@ -80,9 +80,7 @@ fun LoginCard(userName: MutableState<String>,
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier
-                .padding(16.dp)
-
+            modifier = Modifier.padding(12.dp)
         ) {
             Text(
                 text = "Login",
@@ -102,12 +100,14 @@ fun LoginCard(userName: MutableState<String>,
                 singleLine = true,
                 onValueChange = { userName.value = it },
                 label = { Text(text = "Username") },
+                modifier = Modifier.fillMaxWidth(0.9f)
             )
             OutlinedTextField(
                 value = password.value,
                 singleLine = true,
                 onValueChange = { password.value = it },
                 label = { Text(text = "Password") },
+                modifier = Modifier.fillMaxWidth(0.9f),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     val image = if (passwordVisible)
@@ -128,26 +128,25 @@ fun LoginCard(userName: MutableState<String>,
                 onClick = { /*TODO*/ },
                 modifier = Modifier
                     .align(Alignment.End)
-                    .padding(12.dp)
             ) {
                 Text(text = "forgot password?")
             }
             OutlinedButton(
                 onClick = onLogInPress,
                 modifier = Modifier
-                    .width(300.dp)
+                    .fillMaxWidth(0.9f)
             ) {
                 Text(text = "Login")
             }
             Row (
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(12.dp)
             )
             {
-                Text(text = "Don't have an account?",
-                modifier = Modifier.padding(12.dp))
+                Text(text = "Don't have an account?"
+                )
                 TextButton(
                     onClick = { /*TODO*/ },
                 ) {
@@ -160,6 +159,7 @@ fun LoginCard(userName: MutableState<String>,
             )
             Row (
                 horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ){
                 IconButton(
