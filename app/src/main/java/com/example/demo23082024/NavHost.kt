@@ -18,23 +18,31 @@ fun OurNavHost(
     navController: NavHostController,
     startDestination: String
 ) {
+    // activity specific context, could be migrated to state machine or service
+    val userName = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+
     NavHost(navController, startDestination, modifier = modifier) {
         composable("Screen1") {
             val context = LocalContext.current
 
+
             LoginScreen(
                 onLoginClick = {
-                    navController.navigate("Screen2/obligatorio?paramOpcional=true")
+                    if(userName.value.contains("@test.com") && password.value == "Password123") {
+                        navController.navigate("Screen2/obligatorio?paramOpcional=true")
+                    }
+                    // else alert
                 },
-                userNameState = remember { mutableStateOf("") },
-                passwordState = remember { mutableStateOf("") },
+                userNameState = userName,
+                passwordState = password,
 //                onActivityNavigation = {
 //                    val intent = Intent(context, SecondActivity::class.java).apply {
 //                        putExtra(SecondActivity.PARAM, "Parámetro")
 //                    }
 //                    context.startActivity(intent)
 //                }
-                        )
+            )
         }
         composable(
             "Screen2/{paramObligatorio}?paramOpcional={paramOpcional}",
