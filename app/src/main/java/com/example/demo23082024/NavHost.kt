@@ -1,5 +1,7 @@
 package com.example.demo23082024
 
+import android.widget.Toast
+import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -10,6 +12,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.demo23082024.ui.ConfirmationDialog
+import com.example.demo23082024.ui.screens.HomeScreen
 import com.example.demo23082024.ui.screens.LoginScreen
 
 @Composable
@@ -23,42 +27,38 @@ fun OurNavHost(
     val password = remember { mutableStateOf("") }
 
     NavHost(navController, startDestination, modifier = modifier) {
-        composable("Screen1") {
+        composable("Login") {
             val context = LocalContext.current
 
 
             LoginScreen(
                 onLoginClick = {
                     if(userName.value.contains("@test.com") && password.value == "Password123") {
-                        navController.navigate("Screen2/obligatorio?paramOpcional=true")
+                        navController.navigate("Home")
                     }
-                    // else alert
+                    else {
+                        Toast.makeText(context, "Incorrect Username or Password", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 userNameState = userName,
                 passwordState = password,
-//                onActivityNavigation = {
-//                    val intent = Intent(context, SecondActivity::class.java).apply {
-//                        putExtra(SecondActivity.PARAM, "Parámetro")
-//                    }
-//                    context.startActivity(intent)
-//                }
             )
         }
-        composable(
-            "Screen2/{paramObligatorio}?paramOpcional={paramOpcional}",
-            arguments = listOf(
-                navArgument("paramObligatorio") { type = NavType.StringType },
-                navArgument("paramOpcional") {
-                    type = NavType.BoolType
-                    defaultValue = false
+        composable("Home") {
+            val openAlertDialog = remember { mutableStateOf(false) }
+            ConfirmationDialog(
+                onConfirmation = {
+                    password.value = ""
+                    navController.navigate("Login")
+                },
+                openAlertDialog = openAlertDialog
+            )
+            HomeScreen(
+                userNameState = userName,
+                onLogoutClick = {
+                    openAlertDialog.value = true
                 }
             )
-        ) { backStackEntry ->
-            val obligatorio = backStackEntry.arguments?.getString("paramObligatorio")
-            val opcional = backStackEntry.arguments?.getBoolean("paramOpcional")
-//            Screen2 {
-//                navController.popBackStack()
-//            }
         }
     }
 }

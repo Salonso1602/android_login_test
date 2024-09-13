@@ -76,7 +76,7 @@ fun LoginScreen(modifier: Modifier = Modifier,
                 value = userNameState.value,
                 singleLine = true,
                 onValueChange = { userNameState.value = it },
-                label = { Text(text = "Username") },
+                label = { Text(text = "E-Mail") },
                 modifier = Modifier.fillMaxWidth(0.9f)
             )
             OutlinedTextField(
