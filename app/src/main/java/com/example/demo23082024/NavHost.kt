@@ -1,7 +1,6 @@
 package com.example.demo23082024
 
 import android.widget.Toast
-import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -9,10 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import com.example.demo23082024.ui.ConfirmationDialog
+import com.example.demo23082024.ui.components.ConfirmationDialog
 import com.example.demo23082024.ui.screens.HomeScreen
 import com.example.demo23082024.ui.screens.LoginScreen
 
