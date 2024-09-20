@@ -57,10 +57,10 @@ import java.time.LocalDateTime
 fun HomeScreen(
     modifier: Modifier = Modifier,
     userNameState: MutableState<String>,
-    onLogoutClick: () -> Unit
+    onLogoutClick: () -> Unit,
+    onProfileNameClick: () -> Unit
 ){
     Column {
-
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
@@ -91,7 +91,7 @@ fun HomeScreen(
                         )
                     }
                     TextButton(
-                        onClick = { /*TODO*/ }
+                        onClick = onProfileNameClick
                     ) {
                         Text(
                             text = "Hello " + userNameState.value,
@@ -276,7 +276,8 @@ private fun HomeScreenPreview(modifier: Modifier = Modifier) {
     Demo23082024Theme {
         HomeScreen(
             userNameState = remember { mutableStateOf("Messi") },
-            onLogoutClick = {}
+            onLogoutClick = {},
+            onProfileNameClick = {}
         )
     }
 }

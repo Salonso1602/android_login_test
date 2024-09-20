@@ -9,9 +9,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.example.demo23082024.entities.User
 import com.example.demo23082024.ui.components.ConfirmationDialog
 import com.example.demo23082024.ui.screens.HomeScreen
 import com.example.demo23082024.ui.screens.LoginScreen
+import com.example.demo23082024.ui.screens.ProfileInfoScreen
+import java.time.LocalDateTime
 
 @Composable
 fun OurNavHost(
@@ -19,6 +22,12 @@ fun OurNavHost(
     navController: NavHostController,
     startDestination: String
 ) {
+    val currentUser = remember { mutableStateOf(User(
+        name = "Lionel",
+        lastname = "Messi",
+        pfpId = R.drawable.download,
+        dob = LocalDateTime.parse("1987-01-06T20:30:10")
+    )) }
     // activity specific context, could be migrated to state machine or service
     val userName = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -26,7 +35,6 @@ fun OurNavHost(
     NavHost(navController, startDestination, modifier = modifier) {
         composable("Login") {
             val context = LocalContext.current
-
 
             LoginScreen(
                 onLoginClick = {
@@ -54,7 +62,16 @@ fun OurNavHost(
                 userNameState = userName,
                 onLogoutClick = {
                     openAlertDialog.value = true
+                },
+                onProfileNameClick = {
+                    navController.navigate("Profile")
                 }
+            )
+        }
+        composable("Profile") {
+            ProfileInfoScreen(
+                user = currentUser,
+                onReturnPress = { navController.navigate("Home") }
             )
         }
     }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -86,7 +87,7 @@ fun UserListPreviewComponent (
                         .background(Color.Black)
                         .align(Alignment.Center)
                 ) {
-                    BasicText(
+                    Text(
                         text = users.value.size.toString(),
                         style = TextStyle(color = Color.White, fontSize = 12.sp),
                         modifier = Modifier.align(Alignment.Center)
@@ -96,7 +97,7 @@ fun UserListPreviewComponent (
         }
         Column {
             Row {
-                BasicText(text = text)
+                Text(text = text)
             }
         }
     }
