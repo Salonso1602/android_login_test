@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -41,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.demo23082024.R
+import com.example.demo23082024.entities.JoinableActivity
 import com.example.demo23082024.entities.User
 import com.example.demo23082024.ui.components.ActivityMap
 import com.example.demo23082024.ui.components.UserListPreviewComponent
@@ -49,7 +51,8 @@ import java.time.LocalDateTime
 
 @Composable
 fun HomeScreen(
-    userNameState: MutableState<String>,
+    activeUserState: MutableState<User>,
+    activity: MutableState<JoinableActivity>,
     onLogoutClick: () -> Unit,
     onProfileNameClick: () -> Unit
 ){
@@ -87,7 +90,7 @@ fun HomeScreen(
                         onClick = onProfileNameClick
                     ) {
                         Text(
-                            text = "Hello " + userNameState.value,
+                            text = "Hello " + activeUserState.value.name,
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             style = MaterialTheme.typography.bodyMedium,
@@ -121,7 +124,7 @@ fun HomeScreen(
                         ) {
                             Row {
                                 Column {
-                                    val date = LocalDateTime.now()
+                                    val date = activity.value.date
                                     Text(
                                         date.dayOfMonth.toString(),
                                         fontSize = 36.sp,
@@ -140,17 +143,7 @@ fun HomeScreen(
                                     modifier = Modifier.fillMaxHeight(0.33f)
                                 ) {
                                     Text(
-                                        "Cochabamba",
-                                        fontSize = 24.sp,
-                                        color = Color.White
-                                    )
-                                    Text(
-                                        "Clean City",
-                                        fontSize = 24.sp,
-                                        color = Color.White
-                                    )
-                                    Text(
-                                        "Together",
+                                        activity.value.shortDescription,
                                         fontSize = 24.sp,
                                         color = Color.White
                                     )
@@ -163,7 +156,7 @@ fun HomeScreen(
                                     tint = Color.White
                                 )
                                 Text(
-                                    "Cochabamba, BOL",
+                                    activity.value.location,
                                     fontSize = 20.sp,
                                     color = Color.White
                                 )
@@ -192,10 +185,7 @@ fun HomeScreen(
                 .fillMaxWidth()
         ) {
             UserListPreviewComponent(
-                users = remember {mutableStateOf(mutableListOf(
-                    User(pfpId = R.drawable.messipelado),
-                    User(name = "John", pfpId = R.drawable.bichopelado)
-                ))},
+                users = activity.value.joinedMembers,
                 message = remember {mutableStateOf("have joined this event")}
             )
         }
@@ -206,9 +196,7 @@ fun HomeScreen(
                 .padding(8.dp)
         ) {
             Text(
-                text = "Hi Altiplaneros, We wait you to join with us. \n" +
-                        "We need you to save our city stay clean and beautiful.\n" +
-                        "Let's join Altiplaneros!",
+                text = activity.value.longDescription,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.DarkGray
@@ -220,7 +208,9 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(18.dp)
         ) {
-            ActivityMap()
+            ActivityMap(
+                activity = activity
+            )
         }
         Row(
             horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
@@ -268,9 +258,27 @@ fun HomeScreen(
 private fun HomeScreenPreview(modifier: Modifier = Modifier) {
     Demo23082024Theme {
         HomeScreen(
-            userNameState = remember { mutableStateOf("Messi") },
+            activeUserState = remember { mutableStateOf(User("Messi")) },
             onLogoutClick = {},
-            onProfileNameClick = {}
+            onProfileNameClick = {},
+            activity = remember {
+                mutableStateOf(JoinableActivity(
+                    name = "Cochabamba Cleanup",
+                    shortDescription = "Cochabamba \nClean City \nTogether",
+                    longDescription = "Hi Altiplaneros, We wait you to join with us. \n" +
+                            "We need you to save our city stay clean and beautiful.\n" +
+                            "Let's join Altiplaneros!",
+                    location = "Cochabamba, BOL",
+                    date = LocalDateTime.now(),
+                    joinedMembers = mutableStateOf(mutableListOf(
+                        User(pfpId = R.drawable.messipelado),
+                        User(name = "John", pfpId = R.drawable.bichopelado)
+                    )),
+                    mapPic =
+                        mutableIntStateOf(R.drawable.map_placehhoder)
+
+                ))
+            }
         )
     }
 }

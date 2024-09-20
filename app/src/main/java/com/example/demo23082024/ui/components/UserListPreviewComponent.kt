@@ -31,7 +31,7 @@ import com.example.demo23082024.ui.theme.Demo23082024Theme
 
 @Composable
 fun UserListPreviewComponent (
-    users : MutableState<List<User>>,
+    users : MutableState<MutableList<User>>,
     message : MutableState<String>
 ) {
     val text = "${users.value[0].name} and ${users.value.size - 1} others " +

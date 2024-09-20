@@ -2,6 +2,7 @@ package com.example.demo23082024
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -9,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.example.demo23082024.entities.JoinableActivity
 import com.example.demo23082024.entities.User
 import com.example.demo23082024.ui.components.ConfirmationDialog
 import com.example.demo23082024.ui.screens.HomeScreen
@@ -26,7 +28,8 @@ fun OurNavHost(
         name = "Lionel",
         lastname = "Messi",
         pfpId = R.drawable.download,
-        dob = LocalDateTime.parse("1987-01-06T20:30:10")
+        dob = LocalDateTime.parse("1987-01-06T20:30:10"),
+        country = "Argentina"
     )) }
     // activity specific context, could be migrated to state machine or service
     val userName = remember { mutableStateOf("") }
@@ -59,12 +62,32 @@ fun OurNavHost(
                 openAlertDialog = openAlertDialog
             )
             HomeScreen(
-                userNameState = userName,
+                activeUserState = currentUser,
                 onLogoutClick = {
                     openAlertDialog.value = true
                 },
                 onProfileNameClick = {
                     navController.navigate("Profile")
+                },
+                activity = remember {
+                    mutableStateOf(
+                        JoinableActivity(
+                        name = "Cochabamba Cleanup",
+                        shortDescription = "Cochabamba \nClean City \nTogether",
+                        longDescription = "Hi Altiplaneros, We wait you to join with us. \n" +
+                                "We need you to save our city stay clean and beautiful.\n" +
+                                "Let's join Altiplaneros!",
+                        location = "Cochabamba, BOL",
+                        date = LocalDateTime.now(),
+                        joinedMembers = mutableStateOf(mutableListOf(
+                            User(pfpId = R.drawable.messipelado),
+                            User(name = "John", pfpId = R.drawable.bichopelado)
+                        )),
+                        mapPic =
+                        mutableIntStateOf(R.drawable.map_placehhoder)
+
+                    )
+                    )
                 }
             )
         }
