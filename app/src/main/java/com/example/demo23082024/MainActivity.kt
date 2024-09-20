@@ -14,7 +14,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.demo23082024.entities.JoinableActivity
 import com.example.demo23082024.entities.User

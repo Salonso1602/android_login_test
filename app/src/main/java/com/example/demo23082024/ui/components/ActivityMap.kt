@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.res.painterResource
-import com.example.demo23082024.R
 import com.example.demo23082024.entities.JoinableActivity
 
 @Composable
