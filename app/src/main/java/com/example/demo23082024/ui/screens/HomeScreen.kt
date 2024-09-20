@@ -41,11 +41,15 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.demo23082024.R
+import com.example.demo23082024.entities.User
+import com.example.demo23082024.ui.components.ActivityMap
+import com.example.demo23082024.ui.components.UserListPreviewComponent
 import com.example.demo23082024.ui.theme.Demo23082024Theme
 import java.time.LocalDateTime
 
@@ -82,7 +86,8 @@ fun HomeScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBackIosNew,
-                            contentDescription = "Logout"
+                            contentDescription = "Logout",
+                            tint = Color.White
                         )
                     }
                     TextButton(
@@ -92,7 +97,8 @@ fun HomeScreen(
                             text = "Hello " + userNameState.value,
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.White
                         )
                     }
                     IconButton(
@@ -101,7 +107,8 @@ fun HomeScreen(
                         ) {
                         Icon(
                             imageVector = Icons.Filled.Menu,
-                            contentDescription = "Logout"
+                            contentDescription = "Logout",
+                            tint = Color.White
                         )
                     }
                 }
@@ -124,11 +131,13 @@ fun HomeScreen(
                                     val date = LocalDateTime.now()
                                     Text(
                                         date.dayOfMonth.toString(),
-                                        fontSize = 36.sp
+                                        fontSize = 36.sp,
+                                        color = Color.White
                                     )
                                     Text(
                                         date.month.toString(),
-                                        fontSize = 20.sp
+                                        fontSize = 20.sp,
+                                        color = Color.White
                                     )
                                 }
                             }
@@ -139,26 +148,31 @@ fun HomeScreen(
                                 ) {
                                     Text(
                                         "Cochabamba",
-                                        fontSize = 24.sp
+                                        fontSize = 24.sp,
+                                        color = Color.White
                                     )
                                     Text(
                                         "Clean City",
-                                        fontSize = 24.sp
+                                        fontSize = 24.sp,
+                                        color = Color.White
                                     )
                                     Text(
                                         "Together",
-                                        fontSize = 24.sp
+                                        fontSize = 24.sp,
+                                        color = Color.White
                                     )
                                 }
                             }
                             Row {
                                 Icon(
                                     imageVector = Icons.Filled.LocationOn,
-                                    contentDescription = "Location Icon"
+                                    contentDescription = "Location Icon",
+                                    tint = Color.White
                                 )
                                 Text(
                                     "Cochabamba, BOL",
-                                    fontSize = 20.sp
+                                    fontSize = 20.sp,
+                                    color = Color.White
                                 )
                             }
                         }
@@ -183,23 +197,37 @@ fun HomeScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Red)
         ) {
-            /* joinedFriendsComponent */
+            UserListPreviewComponent(
+                users = remember {mutableStateOf(mutableListOf(
+                    User(pfpId = R.drawable.messipelado),
+                    User(name = "John", pfpId = R.drawable.bichopelado)
+                ))},
+                message = remember {mutableStateOf("have joined this event")}
+            )
         }
         Row(
+            horizontalArrangement = Arrangement.Start,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Red)
+                .padding(8.dp)
         ) {
-            /* activity description */
+            Text(
+                text = "Hi Altiplaneros, We wait you to join with us. \n" +
+                        "We need you to save our city stay clean and beautiful.\n" +
+                        "Let's join Altiplaneros!",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.DarkGray
+            )
         }
         Row(
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Red)
+                .padding(18.dp)
         ) {
-            /* map of activity */
+            ActivityMap()
         }
         Row(
             horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
@@ -209,7 +237,6 @@ fun HomeScreen(
                 .height(60.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
-            /* activity actions */
             OutlinedIconButton(
                 onClick = { /*TODO*/ },
                 modifier = Modifier
