@@ -22,80 +22,13 @@ import java.time.LocalDateTime
 fun OurNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String
+    startDestination: String,
+    composables: MutableMap<String, @Composable () -> Unit>
 ) {
-    val currentUser = remember { mutableStateOf(User(
-        name = "Lionel",
-        lastname = "Messi",
-        pfpId = R.drawable.download,
-        dob = LocalDateTime.parse("1987-01-06T20:30:10"),
-        country = "Argentina"
-    )) }
-    // activity specific context, could be migrated to state machine or service
-    val userName = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-
     NavHost(navController, startDestination, modifier = modifier) {
-        composable("Login") {
-            val context = LocalContext.current
-
-            LoginScreen(
-                onLoginClick = {
-                    if(userName.value.contains("@test.com") && password.value == "Password123") {
-                        navController.navigate("Home")
-                    }
-                    else {
-                        Toast.makeText(context, "Incorrect Username or Password", Toast.LENGTH_SHORT).show()
-                    }
-                },
-                userNameState = userName,
-                passwordState = password,
-            )
-        }
-        composable("Home") {
-            val openAlertDialog = remember { mutableStateOf(false) }
-            ConfirmationDialog(
-                onConfirmation = {
-                    password.value = ""
-                    navController.navigate("Login")
-                },
-                openAlertDialog = openAlertDialog
-            )
-            HomeScreen(
-                activeUserState = currentUser,
-                onLogoutClick = {
-                    openAlertDialog.value = true
-                },
-                onProfileNameClick = {
-                    navController.navigate("Profile")
-                },
-                activity = remember {
-                    mutableStateOf(
-                        JoinableActivity(
-                        name = "Cochabamba Cleanup",
-                        shortDescription = "Cochabamba \nClean City \nTogether",
-                        longDescription = "Hi Altiplaneros, We wait you to join with us. \n" +
-                                "We need you to save our city stay clean and beautiful.\n" +
-                                "Let's join Altiplaneros!",
-                        location = "Cochabamba, BOL",
-                        date = LocalDateTime.now(),
-                        joinedMembers = mutableStateOf(mutableListOf(
-                            User(pfpId = R.drawable.messipelado),
-                            User(name = "John", pfpId = R.drawable.bichopelado)
-                        )),
-                        mapPic =
-                        mutableIntStateOf(R.drawable.map_placehhoder)
-
-                    )
-                    )
-                }
-            )
-        }
-        composable("Profile") {
-            ProfileInfoScreen(
-                user = currentUser,
-                onReturnPress = { navController.navigate("Home") }
-            )
+        composables.forEach{
+            val item = it
+            composable(item.key){ item.value() }
         }
     }
 }
